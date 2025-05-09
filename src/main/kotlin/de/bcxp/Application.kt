@@ -6,9 +6,16 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.plugins.cors.routing.*
 
 fun main() {
-    embeddedServer(Netty, port = 8080) {
+    embeddedServer(Netty, port = 8080){
+        install(CORS) {
+            allowMethod(HttpMethod.Get)
+            allowHeader(HttpHeaders.ContentType)
+            allowHeader(HttpHeaders.Authorization)
+            anyHost()
+        }
         configureRouting()
     }.start(wait = true)
 }
@@ -26,22 +33,4 @@ fun Application.configureRouting() {
             }
         }
     }
-}
-
-fun String.isCamelCase(): Boolean {
-    val camelCaseRegex = "^[a-z]+(?:[A-Z][a-z]*)*$".toRegex()
-    return camelCaseRegex.matches(this)
-}
-
-fun String.isSnakeCase(): Boolean {
-    val snakeCaseRegex = "^[a-z]+(?:_[a-z0-9]+)*$".toRegex()
-    return snakeCaseRegex.matches(this)
-}
-
-fun String.toSnakeCase(): String {
-    return this.replace(Regex("([a-z])([A-Z])"), "$1_$2").lowercase()
-}
-
-fun String.snakeToCamelCase(): String {
-    return this.split("_").joinToString("") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }.replaceFirstChar { it.lowercase() }
 }

@@ -52,23 +52,23 @@ Konvertiert einen String zwischen `camelCase` und `snake_case`.
    git clone https://github.com/wittyCode/kotlin_webservice.git
    cd kotlin_webservice
    ```
-   
+
 3. **Abhängigkeiten installieren**:
    ```bash
    ./gradlew build
    ```
-   
+
 4. **Server starten**:
    ```./gradlew run```
- 
-5. **API testen**: 
-   Der Server läuft standardmäßig auf http://localhost:8080. Verwende ein Tool wie Postman oder curl, um Anfragen zu senden:  
+
+5. **API testen**:
+   Der Server läuft standardmäßig auf http://localhost:8080. Verwende ein Tool wie Postman oder curl, um Anfragen zu senden:
    ```bash
-   curl "http://localhost:8080/convert?input=camelCase" 
+   curl "http://localhost:8080/convert?input=camelCase"
    ```
-   
+
 ## Tests
-Die Anwendung nutzt JUnit 5 für Unit-Tests. Die Tests sind im Verzeichnis `src/test/kotlin` abgelegt. 
+Die Anwendung nutzt JUnit 5 für Unit-Tests. Die Tests sind im Verzeichnis `src/test/kotlin` abgelegt.
 Um die Tests auszuführen, stelle sicher, dass du die Abhängigkeiten installiert hast und der Server nicht läuft.
 Führe den folgenden Befehl aus:
 ```bash
@@ -86,3 +86,56 @@ Um den Webserver in einem Docker-Container auszuführen, kannst du das bereitges
    ```bash
     docker run -p 8080:8080 kotlin_webservice:latest
     ```
+   
+## Web Interface
+
+Der Service bietet zusätzlich zur API ein benutzerfreundliches Web Interface zur Konvertierung der Strings.
+
+### Nutzung des Web Interfaces
+
+1. **Zugriff auf das Interface**:
+   - Stellen Sie sicher, dass der Server läuft (`./gradlew run`)
+   - Öffnen Sie die `index.html` im Browser
+   - Alternativ navigieren Sie zu `http://localhost:8080`
+
+2. **Funktionen**:
+   - Eingabefeld für den zu konvertierenden Text
+   - Ein Konvertierungsbutton:
+     - "To Camel Case / To Snake Case": Konvertiert automatisch zwischen den Formaten
+   - Ausgabefeld für das Ergebnis
+   - Fehleranzeige bei ungültigen Eingaben
+
+3. **Beispiele für die Nutzung**:
+   - camelCase zu snake_case:
+     ```
+     Eingabe: myVariableName
+     Ausgabe: my_variable_name
+     ```
+   - snake_case zu camelCase:
+     ```
+     Eingabe: my_variable_name
+     Ausgabe: myVariableName
+     ```
+
+4. **Fehlermeldungen**:
+   - "Please enter some text to convert": Erscheint bei leerer Eingabe
+   - "Conversion failed": Erscheint bei ungültigem Format oder Serverproblemen
+   - Fehleranzeige bei Verbindungsproblemen zum Server
+
+### Technische Details des Web Interfaces
+
+- Reines HTML und JavaScript
+- Keine externen Abhängigkeiten
+- Responsives Design für verschiedene Bildschirmgrößen
+- Kommuniziert mit dem Backend über REST-API (`http://localhost:8080/convert`)
+- CORS-aktiviert für lokale Entwicklung
+- Einfaches, übersichtliches Design mit grünem Aktionsbutton
+- Automatische Formaterkennung und Konvertierung
+
+### Tipps zur Nutzung
+
+- Der Server muss auf Port 8080 laufen
+- Die Konvertierung erfolgt automatisch in beide Richtungen
+- Kopieren Sie den Text direkt in das Eingabefeld
+- Das Ergebnisfeld ist schreibgeschützt (readonly)
+- Bei Fehlern erscheint eine rote Fehlermeldung unter dem Button

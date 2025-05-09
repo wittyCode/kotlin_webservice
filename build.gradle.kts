@@ -1,5 +1,3 @@
-import org.gradle.internal.declarativedsl.parsing.main
-
 plugins {
     kotlin("jvm") version "2.0.21"
     application
@@ -15,13 +13,12 @@ repositories {
 val ktor_version = "2.3.7"
 val logback_version = "1.4.5"
 
-
-
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-serialization-jackson:$ktor_version")
+    implementation("io.ktor:ktor-server-cors-jvm:$ktor_version")
 
     // Logging
     implementation("ch.qos.logback:logback-classic:$logback_version")
