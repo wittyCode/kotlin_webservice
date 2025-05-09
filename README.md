@@ -74,3 +74,15 @@ Führe den folgenden Befehl aus:
 ```bash
 ./gradlew test
 ```
+
+## Setup mit Docker
+Um den Webserver in einem Docker-Container auszuführen, kannst du das bereitgestellte Dockerfile verwenden. Stelle sicher, dass Docker installiert ist und der Daemon läuft.
+1. **Docker-Image erstellen**:
+   ```bash
+   ./gradlew build
+   ./gradlew dockerBuild
+   ```
+2. **Docker-Container starten**:
+   ```bash
+    docker run -p 8080:8080 kotlin_webservice:latest
+    ```

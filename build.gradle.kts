@@ -1,3 +1,5 @@
+import org.gradle.internal.declarativedsl.parsing.main
+
 plugins {
     kotlin("jvm") version "2.0.21"
     application
@@ -36,6 +38,26 @@ application {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = application.mainClass.get()
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+}
+
+tasks.register("dockerBuild") {
+    group = "docker"
+    description = "Erstellt ein Docker-Image für die Anwendung."
+
+    doLast {
+        val imageName = "kotlin_webservice:latest"
+        exec {
+            commandLine("podman", "build", "-t", imageName, ".")
+        }
+    }
 }
 
 kotlin {
